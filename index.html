@@ -84,16 +84,18 @@
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
-        // TODO
-        var response = fetch('http://localhost:3000/posts')
-          .then(function (data) {
-            console.log('Request succeeded with JSON response', data);
+        
+        var server = 'http://localhost:3000/posts/';
+
+        fetch(server)
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('output').innerHTML = JSON.stringify(data);
           })
-          .catch(function (error) {
-            console.log('Request failed', error);
+          .catch((error) => {
+            console.error('Error:', error);
           });
-        var string = '<span>' + response.json() + '</span>';
-        document.write(string);
+        
       }
 
       // This function should fetch one entry from the given endpoint.
@@ -108,7 +110,7 @@
         fetch(server)
           .then(response => response.json())
           .then(data => {
-            console.log('Success:', data);
+            document.getElementById('output').innerHTML = JSON.stringify(data);
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -121,33 +123,36 @@
       // The main difference from updateRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
       function createRecord(action) {
+
         // If 'show', reveal form (but hide ID input)
         if (action == 'show') {
-          document.getElementById('actionForm').display = block;
-          document.getElementById('recordIDcontainer').display = none;
+          document.getElementById('recordForm').style.display = "block";
+          document.getElementById('recordIDcontainer').style.display = "none";
         }
         // Else: 'submit', obtain and post data
         else {
 
-          var data = { 
-            author: document.getElementById('author').value,
-            title: document.getElementById('title').value
+          var author = document.getElementById('author').value;
+          var title = document.getElementById('title').value;
+          var server = 'http://localhost:3000/posts'; 
+
+          var newRecord = {
+            author: author,
+            title: title
           };
 
-          fetch('http://localhost:3000/posts', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Success:', data);
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+          fetch(server, {
+              method: 'POST',
+              body: JSON.stringify(newRecord)
+              }
+            )
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById('output').innerHTML = JSON.stringify(data);
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
 
         }
 
@@ -160,30 +165,33 @@
       function updateRecord(action) {
         // If 'show', reveal form (and ID input)
         if (action == 'show') {
-          document.getElementById('actionForm').visibility = block;
+          document.getElementById('recordForm').style.visibility = "block";
         }
         // Else: 'submit', obtain and post data
         else {
-          var data = { 
-            author: document.getElementById('author').value,
-            title: document.getElementById('title').value,
-            recordID: document.getElementById('recordID').value
+          var author = document.getElementById('author').value;
+          var title = document.getElementById('title').value;
+          var ID = document.getElementById('recordID').value;
+          var server = 'http://localhost:3000/posts/' + ID; 
+
+          var newRecord = {
+            author: author,
+            title: title
           };
 
-          fetch('http://localhost:3000/posts', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Success:', data);
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+          fetch(server, {
+              method: 'POST',
+              body: JSON.stringify(newRecord)
+              }
+            )
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById('output').innerHTML = JSON.stringify(data);
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+
         } 
       }
 
@@ -193,27 +201,26 @@
       // request; check the writeup to view the URL pattern for get one and delete. THERE IS NO 
       // delete all, only delete one.
       function deleteRecord() {
-        // Reveal the form to obtain record ID to delete
-        document.getElementById('actionForm').visibility = block;
+        
+        document.getElementById('recordForm').style.visibility = "block";
 
-          var data = { 
-            recordID: document.getElementById('recordID').value
-          };
+        var ID = document.getElementById('recordID');
+        var server = 'http://localhost:3000/posts/' + ID; 
 
-          fetch('http://localhost:3000/posts', {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Success:', data);
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+        fetch(server, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
       }
 
       window.addEventListener('DOMContentLoaded', () => {
