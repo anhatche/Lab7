@@ -148,6 +148,9 @@
 
           fetch(server, {
               method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
               body: JSON.stringify(newRecord)
               }
             )
@@ -173,8 +176,8 @@
       function updateRecord(action) {
         // If 'show', reveal form (and ID input)
         if (action == 'show') {
-          document.getElementById('recordForm').style.visibility = "block";
-          document.getElementById('output').innerHTML = '';
+          document.getElementById('recordForm').style.display = "block";
+          document.getElementById('recordIDcontainer').style.display = "block";
         }
         // Else: 'submit', obtain and post data
         else {
@@ -189,7 +192,10 @@
           };
 
           fetch(server, {
-              method: 'POST',
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
               body: JSON.stringify(newRecord)
               }
             )
@@ -217,15 +223,11 @@
         document.getElementById('recordForm').style.visibility = "block";
         document.getElementById('output').innerHTML = '';
 
-        var ID = document.getElementById('recordID');
+        var ID = window.prompt('Enter record ID');
         var server = 'http://localhost:3000/posts/' + ID; 
 
         fetch(server, {
           method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
         })
         .then(response => response.json())
         .then(data => {
