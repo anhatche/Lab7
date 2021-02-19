@@ -132,6 +132,8 @@
         if (action == 'show') {
           document.getElementById('recordForm').style.display = "block";
           document.getElementById('recordIDcontainer').style.display = "none";
+          document.getElementById('author').value = '';
+          document.getElementById('title').value = '';
           document.getElementById('output').innerHTML = '';
         }
         // Else: 'submit', obtain and post data
@@ -178,6 +180,9 @@
         if (action == 'show') {
           document.getElementById('recordForm').style.display = "block";
           document.getElementById('recordIDcontainer').style.display = "block";
+          document.getElementById('author').value = '';
+          document.getElementById('title').value = '';
+          document.getElementById('recordID').value = '';
         }
         // Else: 'submit', obtain and post data
         else {
@@ -236,9 +241,6 @@
         .catch((error) => {
           console.error('Error:', error);
         });
-
-        document.getElementById('recordForm').style.display = "none";
-        document.getElementById('recordIDcontainer').style.display = "none";
 
       }
 
