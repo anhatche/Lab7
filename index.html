@@ -85,10 +85,7 @@
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
         // TODO
-        fetch('http://localhost:3000/posts', {
-          method: 'GET'
-        })
-        .then(json)
+        fetch('http://localhost:3000/posts')
         .then(function (data) {
           console.log('Request succeeded with JSON response', data);
         })
@@ -102,19 +99,11 @@
       // The main difference from fetchAll() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchOne() {
-        // TODO
+        
+        var ID = window.prompt("Enter record ID");
+        var server = 'http://localhost:3000/posts/' + ID; 
 
-        var data = { 
-            ID: window.prompt("Enter record ID")
-          };
-
-          fetch('http://localhost:3000/posts', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
+        fetch(server)
           .then(response => response.json())
           .then(data => {
             console.log('Success:', data);
@@ -122,6 +111,7 @@
           .catch((error) => {
             console.error('Error:', error);
           });
+
       }
 
       // This function should use fetch to create one entry in the given endpoint.
