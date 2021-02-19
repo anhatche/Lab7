@@ -85,13 +85,15 @@
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
         // TODO
-        fetch('http://localhost:3000/posts')
-        .then(function (data) {
-          console.log('Request succeeded with JSON response', data);
-        })
-        .catch(function (error) {
-          console.log('Request failed', error);
-        });
+        var response = fetch('http://localhost:3000/posts')
+          .then(function (data) {
+            console.log('Request succeeded with JSON response', data);
+          })
+          .catch(function (error) {
+            console.log('Request failed', error);
+          });
+        var string = '<span>' + response.json() + '</span>';
+        document.write(string);
       }
 
       // This function should fetch one entry from the given endpoint.
